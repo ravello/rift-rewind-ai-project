@@ -1,20 +1,20 @@
-import * as React from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from "./pages/LandingPage";
+import LoadingPage from "./pages/LoadingPage";
+import AgentPage from "./pages/AgentPage";
 import { HeroUIProvider } from '@heroui/react';
 import './App.css';
-
-function MyApplication() {
-  return (
-    <>
-      <h1>Hello, World</h1>
-      <h2>This is the start of the app</h2>
-    </>
-  );
-}
 
 function App() {
   return (
     <HeroUIProvider>
-      <MyApplication />
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/loading" element={<LoadingPage />} />
+          <Route path="/agent" element={<AgentPage />} />
+        </Routes>
+      </Router>
     </HeroUIProvider>
   )
 }
