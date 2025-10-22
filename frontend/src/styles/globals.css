@@ -3,6 +3,18 @@
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: 'Beaufort';
+  src: url("../assets/fonts/BeaufortforLOL-Regular.woff2") format('woff2'),
+       url("../assets/fonts/BeaufortforLOL-Regular.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Spiegel';
+  src: url("../assets/fonts/Spiegel-Regular.woff2") format('woff2'),
+       url("../assets/fonts/Spiegel-Regular.woff") format('woff');
+}
+
 *,
 *::before,
 *::after {
@@ -12,7 +24,8 @@
 html, body {
   background-color: #010A13;
   @apply text-gray-100;
-  font-family: 'Inter', sans-serif;
+  /* font-family: 'Inter', sans-serif; */
+  font-family: 'Beaufort';
 }
 
 body {
@@ -23,4 +36,8 @@ body {
 
 :root {
   font-size: 16px;
+}
+
+input {
+  color: #09C9E4;
 }
