@@ -1,22 +1,23 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HeroUIProvider } from '@heroui/react';
+import { BrowserRouter as BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from "./pages/LandingPage";
 import LoadingPage from "./pages/LoadingPage";
 import AgentPage from "./pages/AgentPage";
-import { HeroUIProvider } from '@heroui/react';
-import './App.css';
 
 function App() {
+  const isAuthorized = false;
+
   return (
     <HeroUIProvider>
-      <Router>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/loading" element={<LoadingPage />} />
-          <Route path="/agent" element={<AgentPage />} />
+          <Route path="/loading" element={isAuthorized ? <LoadingPage /> : <Navigate to="/" />} />
+          <Route path="/agent" element={isAuthorized ? <AgentPage /> : <Navigate to="/" />} />
         </Routes>
-      </Router>
+      </BrowserRouter>
     </HeroUIProvider>
-  )
+  );
 }
 
 export default App
