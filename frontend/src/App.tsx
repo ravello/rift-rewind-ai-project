@@ -5,7 +5,7 @@ import LoadingPage from "./pages/LoadingPage";
 import AgentPage from "./pages/AgentPage";
 
 function App() {
-  const isAuthorized = false;
+  const isAuthorized = true;
 
   return (
     <HeroUIProvider>
