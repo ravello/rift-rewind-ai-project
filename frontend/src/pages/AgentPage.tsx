@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Textarea, Input, Button, Card, CardHeader, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
+import { ChatBox } from "../components/ChatBox";
+import { ChatInput } from "../components/ChatInput";
+import { Button, Card, CardHeader, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import { motion } from "framer-motion";
 
 interface ModalInfo {
@@ -19,19 +21,32 @@ const modalData: ModalInfo[] = [
 ];
 
 export default function AgentPage() {
-    const [openModal, setOpenModal] = useState<number | null>(null);
-    const [userInput, setUserInput] = useState("");
-    const [messages, setMessages] = useState<string[]>(["Teemo: Wow! What a year. Ask me anything."]);
-    const inputRef = useRef<HTMLInputElement>(null);
+    // for chat
+    const [messages, setMessages] = useState([
+        {id: 1, sender: "agent", text: "Teemo: Hello summoner, how can I assist you?"},
+    ]);
 
-    const handleSend = () => {
-        if (!userInput.trim()) return;
-        setMessages((prev) => [...prev, `You: ${userInput}`, `Agent: Thinking about "${userInput}"...`]);
-        setUserInput("");
-        if (inputRef.current) { {/* focus back on the input after sending */}
-            inputRef.current.focus();
-        }
+    const handleSend = (text: string) => {
+        setMessages((prev) => [
+            ...prev,
+            { id: prev.length + 1, sender: "user", text: `You: ${text}` },
+        ]);
     }
+
+    //TODO backend connection for response
+    // setTimeout(() => {
+    //     setMessages((prev) => [
+    //         ...prev,
+    //         {
+    //             id: prev.length + 2,
+    //             sender: "agent",
+    //             text: "I've analyzed your recent matches -- you excel in early-lane skirmishes.",
+    //         },
+    //     ]);
+    // }, 1000000);
+
+    // for modals
+    const [openModal, setOpenModal] = useState<number | null>(null);
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-950 to-black text-white">
@@ -41,24 +56,9 @@ export default function AgentPage() {
                 <h1 className="text-6xl font-bold mb-6">Your 2025 recall</h1>
                 <div className="flex flex-row w-full max-w-6xl gap-6">
                     {/* Chat section */}
-                    <section className="flex flex-col flex-1 bg-slate-800/50 rounded-2xl p-4 justify-between">
-                        <Textarea
-                            value={messages.join("\n")}
-                            readOnly
-                            className="w-full h-full text-sm mb-4 resize-none bg-slate-900/50 rounded-xl p-3 text-white"
-                        />
-                        <div className="flex gap-2">
-                            <Input
-                                type="text"
-                                placeholder="Ask Teemo something..."
-                                value={userInput}
-                                onChange={(e) => setUserInput(e.target.value)}
-                                className="flex-1" 
-                                ref={inputRef}
-                                onKeyDown={(e) => {if (e.key === 'Enter') handleSend()}}
-                            />
-                            <Button onPress={handleSend} color="primary">Send</Button>
-                        </div>
+                    <section className="flex flex-col flex-1 min-h-0 border border-gray-800 bg-slate-800/50 rounded-xl p-4 justify-between shadow-inner">
+                        <ChatBox messages={messages} />
+                        <ChatInput onSend={handleSend} />
                     </section>
 
                     {/* Card section */}
