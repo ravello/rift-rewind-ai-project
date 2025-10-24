@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Textarea, Input, Button, Card, CardHeader, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
@@ -22,15 +22,19 @@ export default function AgentPage() {
     const [openModal, setOpenModal] = useState<number | null>(null);
     const [userInput, setUserInput] = useState("");
     const [messages, setMessages] = useState<string[]>(["Teemo: Wow! What a year. Ask me anything."]);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const handleSend = () => {
         if (!userInput.trim()) return;
         setMessages((prev) => [...prev, `You: ${userInput}`, `Agent: Thinking about "${userInput}"...`]);
         setUserInput("");
+        if (inputRef.current) { {/* focus back on the input after sending */}
+            inputRef.current.focus();
+        }
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-900 to-black text-white">
+        <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-950 to-black text-white">
             <Header />
 
             <main className="flex-grow p-6 flex flex-col items-center gap-8 pt-8">
@@ -41,7 +45,7 @@ export default function AgentPage() {
                         <Textarea
                             value={messages.join("\n")}
                             readOnly
-                            className="h-125 text-sm mb-4 resize-none bg-slate-900/50 border border-slate-700 rounded-xl p-3 text-white"
+                            className="w-full h-full text-sm mb-4 resize-none bg-slate-900/50 rounded-xl p-3 text-white"
                         />
                         <div className="flex gap-2">
                             <Input
@@ -50,6 +54,8 @@ export default function AgentPage() {
                                 value={userInput}
                                 onChange={(e) => setUserInput(e.target.value)}
                                 className="flex-1" 
+                                ref={inputRef}
+                                onKeyDown={(e) => {if (e.key === 'Enter') handleSend()}}
                             />
                             <Button onPress={handleSend} color="primary">Send</Button>
                         </div>
