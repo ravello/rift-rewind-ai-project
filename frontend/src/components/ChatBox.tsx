@@ -1,4 +1,5 @@
 import React from "react";
+import { useAutoScroll } from "../hooks/useAutoScroll";
 
 interface Message {
     id: number;
@@ -11,8 +12,10 @@ interface ChatBoxProps {
 }
 
 export const ChatBox: React.FC<ChatBoxProps> = ({ messages }) => {
+    const scrollRef = useAutoScroll<HTMLDivElement>([messages]);
+
     return (
-        <div className="max-h-125 min-h-125 overflow-y-auto border border-slate-500 p-4 gap-1">
+        <div ref={scrollRef} className="h-125 overflow-y-auto gap-1"> {/* border border-slate-500 */}
             {messages.map((msg) => (
                 <div
                     key={msg.id}

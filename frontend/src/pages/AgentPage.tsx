@@ -8,16 +8,18 @@ import { motion } from "framer-motion";
 
 interface ModalInfo {
     title: string;
-    text: string;
+    subtitle: string;
     img: string;
+    description: string;
 }
 
+// TODO backend connection INSIGHTS
 const modalData: ModalInfo[] = [
-    { title: "Insight 1", text: "Details about insight", img: "/img1.png"},
-    { title: "Insight 2", text: "Details about insight", img: "/img2.png"},
-    { title: "Insight 3", text: "Details about insight", img: "/img3.png"},
-    { title: "Insight 4", text: "Details about insight", img: "/img4.png"},
-    { title: "Insight 5", text: "Details about insight", img: "/img5.png"}
+    { title: "Insight 1", subtitle: "Details about insight", img: "/img1.png", description: "Longer description"},
+    { title: "Insight 2", subtitle: "Details about insight", img: "/img2.png", description: "Longer description"},
+    { title: "Insight 3", subtitle: "Details about insight", img: "/img3.png", description: "Longer description"},
+    { title: "Insight 4", subtitle: "Details about insight", img: "/img4.png", description: "Longer description"},
+    { title: "Insight 5", subtitle: "Details about insight", img: "/img5.png", description: "Longer description"}
 ];
 
 export default function AgentPage() {
@@ -31,9 +33,15 @@ export default function AgentPage() {
             ...prev,
             { id: prev.length + 1, sender: "user", text: `You: ${text}` },
         ]);
+
+        // TODO backend connection AI CHATBOT
+        // const response = await fetch(...);
+        // const data = await response.json();
+        // setMessages(...);
     }
 
-    //TODO backend connection for response
+    // SAMPLE (REMOVE FOR PRODUCTION)
+    // timeout used for example backend response
     // setTimeout(() => {
     //     setMessages((prev) => [
     //         ...prev,
@@ -54,7 +62,7 @@ export default function AgentPage() {
 
             <main className="flex-grow p-6 flex flex-col items-center justify-center gap-8 pt-8">
                 <h1 className="text-6xl font-bold mb-6 text-[#C79B3B]">Your 2025 recall</h1>
-                <div className="flex flex-row w-full max-w-6xl gap-6">
+                <div className="flex flex-row w-full min-h-0 max-w-6xl gap-6">
                     {/* Chat section */}
                     <section className="flex flex-col flex-1 min-h-0 border border-gray-800 bg-gray-800/50 rounded-xl p-4 justify-between shadow-inner">
                         <ChatBox messages={messages} />
@@ -75,7 +83,7 @@ export default function AgentPage() {
                                         <img src={data.img} alt={data.title} className="w-10 h-10 rounded-lg object-cover text-white" />
                                     </CardHeader>
                                     <CardBody>
-                                        <p className="text-sm text-slate-300">{data.text}</p>
+                                        <p className="text-sm text-slate-300">{data.subtitle}</p>
                                     </CardBody>
                                 </Card>
                             </motion.div>
@@ -85,12 +93,12 @@ export default function AgentPage() {
 
                 {/* Modals */}
                 {modalData.map((data, i) => (
-                    <Modal key={i} isOpen={openModal === i} className="bg-gray-800 text-white h-120" onOpenChange={() => setOpenModal(null)}>
+                    <Modal key={i} isOpen={openModal === i} className="bg-gray-800/95 text-white h-120" onOpenChange={() => setOpenModal(null)}>
                         <ModalContent>
                             <ModalHeader className="text-[#C79B3B]">{data.title}</ModalHeader>
                             <ModalBody>
                                 <img src={data.img} alt={data.title} className="rounded-lg mb-3" />
-                                <p>{data.text}</p>
+                                <p>{data.description}</p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button onPress={() => setOpenModal(null)} color="danger" variant="solid">Close</Button>

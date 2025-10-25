@@ -7,6 +7,8 @@ import { Spinner } from "@heroui/react";
 export default function LoadingPage() {
     const navigate = useNavigate();
 
+    // TODO timeout placeholder for actual logic
+    // remove when landing page logic completed
     React.useEffect(() => {
         const timer = setTimeout(() => {
             navigate("/agent");
