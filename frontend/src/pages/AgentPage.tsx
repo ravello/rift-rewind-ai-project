@@ -49,14 +49,14 @@ export default function AgentPage() {
     const [openModal, setOpenModal] = useState<number | null>(null);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-950 to-black text-white">
+        <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#163358] to-black text-white">
             <Header />
 
-            <main className="flex-grow p-6 flex flex-col items-center gap-8 pt-8">
-                <h1 className="text-6xl font-bold mb-6">Your 2025 recall</h1>
+            <main className="flex-grow p-6 flex flex-col items-center justify-center gap-8 pt-8">
+                <h1 className="text-6xl font-bold mb-6 text-[#C79B3B]">Your 2025 recall</h1>
                 <div className="flex flex-row w-full max-w-6xl gap-6">
                     {/* Chat section */}
-                    <section className="flex flex-col flex-1 min-h-0 border border-gray-800 bg-slate-800/50 rounded-xl p-4 justify-between shadow-inner">
+                    <section className="flex flex-col flex-1 min-h-0 border border-gray-800 bg-gray-800/50 rounded-xl p-4 justify-between shadow-inner">
                         <ChatBox messages={messages} />
                         <ChatInput onSend={handleSend} />
                     </section>
@@ -69,10 +69,10 @@ export default function AgentPage() {
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                <Card isPressable onClick={() => setOpenModal(i)} shadow="sm" className="cursor-pointer bg-slate-800 hover:bg-slate-700 transition w-full">
+                                <Card isPressable onClick={() => setOpenModal(i)} shadow="sm" className="cursor-pointer bg-gray-800/50 hover:bg-gray-700 transition w-full">
                                     <CardHeader className="flex justify-between items-center">
-                                        <h3 className="font-semibold text-lg">{data.title}</h3>
-                                        <img src={data.img} alt={data.title} className="w-10 h-10 rounded-lg object-cover" />
+                                        <h3 className="font-semibold text-lg text-[#C79B3B]">{data.title}</h3>
+                                        <img src={data.img} alt={data.title} className="w-10 h-10 rounded-lg object-cover text-white" />
                                     </CardHeader>
                                     <CardBody>
                                         <p className="text-sm text-slate-300">{data.text}</p>
@@ -85,15 +85,15 @@ export default function AgentPage() {
 
                 {/* Modals */}
                 {modalData.map((data, i) => (
-                    <Modal key={i} isOpen={openModal === i} onOpenChange={() => setOpenModal(null)}>
+                    <Modal key={i} isOpen={openModal === i} className="bg-gray-800 text-white h-120" onOpenChange={() => setOpenModal(null)}>
                         <ModalContent>
-                            <ModalHeader>{data.title}</ModalHeader>
+                            <ModalHeader className="text-[#C79B3B]">{data.title}</ModalHeader>
                             <ModalBody>
                                 <img src={data.img} alt={data.title} className="rounded-lg mb-3" />
                                 <p>{data.text}</p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button onPress={() => setOpenModal(null)} color="danger" variant="light">Close</Button>
+                                <Button onPress={() => setOpenModal(null)} color="danger" variant="solid">Close</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>

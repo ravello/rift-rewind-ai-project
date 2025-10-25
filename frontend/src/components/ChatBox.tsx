@@ -23,7 +23,7 @@ export const ChatBox: React.FC<ChatBoxProps> = ({ messages }) => {
                     <div
                         className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
                             msg.sender === "user"
-                                ? "bg-blue-600 text-white"
+                                ? "bg-[#40C1FF] text-white"
                                 : "bg-gray-700 text-gray-100"
                         }`}
                     >

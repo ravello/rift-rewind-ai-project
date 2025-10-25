@@ -15,7 +15,7 @@ export default function LoadingPage() {
     }, [navigate]);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-950 to-black text-white">
+        <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#163358] to-black text-white">
             <Header />
 
             <main className="flex flex-col items-center justify-center flex-grow px-4">

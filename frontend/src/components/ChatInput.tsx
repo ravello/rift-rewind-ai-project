@@ -24,7 +24,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({ onSend}) => {
             />
             <button
                 type="submit"
-                className="bg-blue-600 px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors"
+                className="bg-[#40C1FF] px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors"
             >
                 Send
             </button>
