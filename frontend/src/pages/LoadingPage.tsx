@@ -9,6 +9,7 @@ export default function LoadingPage() {
 
     // TODO timeout placeholder for actual logic
     // remove when landing page logic completed
+    // && (get rid of loading route, conditional rendering)
     React.useEffect(() => {
         const timer = setTimeout(() => {
             navigate("/agent");

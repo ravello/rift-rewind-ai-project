@@ -22,7 +22,11 @@ const modalData: ModalInfo[] = [
     { title: "Insight 5", subtitle: "Details about insight", img: "/img5.png", description: "Longer description"}
 ];
 
-export default function AgentPage() {
+interface AgentPageProps {
+    playerData: any;
+}
+
+export default function AgentPage({ playerData }: AgentPageProps) {
     // for chat
     const [messages, setMessages] = useState([
         {id: 1, sender: "agent", text: "Teemo: Hello summoner, how can I assist you?"},
@@ -34,14 +38,13 @@ export default function AgentPage() {
             { id: prev.length + 1, sender: "user", text: `You: ${text}` },
         ]);
 
-        // TODO backend connection AI CHATBOT
+        // TODO backend connection RAG AI Chatbot
         // const response = await fetch(...);
         // const data = await response.json();
         // setMessages(...);
     }
 
-    // SAMPLE (REMOVE FOR PRODUCTION)
-    // timeout used for example backend response
+    // setTimeout used for example backend response, remove for production
     // setTimeout(() => {
     //     setMessages((prev) => [
     //         ...prev,

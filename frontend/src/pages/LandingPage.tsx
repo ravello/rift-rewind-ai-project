@@ -1,19 +1,50 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Form, Input, Button } from "@heroui/react";
+import { Spinner, Input, Button } from "@heroui/react";
 
 interface LandingPageProps {
-    setIsAuthorized: React.Dispatch<React.SetStateAction<boolean>>;
+    onSuccess: (data: any) => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ setIsAuthorized }) => {
+function LandingPage ({ onSuccess }: LandingPageProps) {
+    const [gameName, setGameName] = useState("");
+    const [tagline, setTagline] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     async function handleSearch() {
-        // TODO backend connection
-        // FIND AND VALIDATE ACCOUNT RIOT API
-        // SET STATE(S) from App.tsx
+        if (!gameName || !tagline) {
+            setError("Please fill in both fields.");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const response = await fetch();  // TODO: Call AWS Lambda endpoint via API Gateway to get Riot account
+
+            if (!response.ok) {
+                throw new Error("Account not found.");
+            }
+        
+            // FOR TESTING, REMOVE
+            // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            const data = await response.json();
+
+            onSuccess(data);  // update parent state, sets authorized to true
+
+            navigate("/agent");  // go to agent page
+        } catch (err: any) {
+            console.error(err);
+            setError(err.message || "Error.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -22,11 +53,31 @@ const LandingPage: React.FC<LandingPageProps> = ({ setIsAuthorized }) => {
 
             <main className="flex flex-col items-center justify-center flex-grow px-4">
                 <h1 className="text-[#C79B3B] text-9xl font-bold mb-6">Recall</h1>
-                <Form className="w-full max-w-md space-y-4" action="" method="post">
-                    <Input label="Game name" fullWidth isRequired />
-                    <Input label="Tagline (e.g., #NA1, #ABC1)" fullWidth isRequired />
-                    <Button onPress={handleSearch} className="w-full mt-4 bg-[#C79B3B] text-black hover:cursor-pointer hover:bg-cyan-200">Search</Button>
-                </Form>
+                <Input 
+                    className="max-w-md mb-4" 
+                    label="Game name" 
+                    value={gameName}
+                    onChange={(e) => setGameName(e.target.value)}
+                    disabled={loading}
+                    fullWidth 
+                    isRequired 
+                />
+                <Input 
+                    className="max-w-md mb-4" 
+                    label="Tagline (e.g., #NA1, #ABC1)"
+                    value={tagline}
+                    onChange={(e) => setTagline(e.target.value)}
+                    disabled={loading} 
+                    fullWidth 
+                    isRequired 
+                />
+                {error && <p className="text-red-400 text-sm text-center mb-4">{error}</p>}
+                <Button 
+                    className="max-w-md w-full bg-[#C79B3B] text-black hover:cursor-pointer hover:bg-cyan-200" 
+                    onPress={handleSearch}
+                >
+                    {loading ? <Spinner color="primary" size="md" /> : "Search"}
+                </Button>
             </main>
 
             <Footer />
