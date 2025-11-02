@@ -303,5 +303,35 @@ resource "aws_api_gateway_integration" "session_id_integration_post" {
   integration_http_method = "POST"
   uri                     = aws_lambda_function.invoke_agent_function.invoke_arn
 }
-# ===== API Gateway END =====
 
+# Deployment
+resource "aws_api_gateway_deployment" "session_api_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.session_api.id
+}
+
+# Stage
+resource "aws_api_gateway_stage" "session_api_stage" {
+  deployment_id = aws_api_gateway_deployment.session_api_deployment.id
+  rest_api_id   = aws_api_gateway_rest_api.session_api.id
+  stage_name    = "dev"
+}
+
+# Lambda Permissions for API Gateway
+resource "aws_lambda_permission" "create_session_lambda_permission" {
+  statement_id  = "create_session_lambda_permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.create_session_function.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.session_api.execution_arn}/*"
+}
+
+resource "aws_lambda_permission" "invoke_agent_lambda_permission" {
+  statement_id  = "invoke_agent_lambda_permission"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.invoke_agent_function.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.session_api.execution_arn}/*"
+}
+# ===== API Gateway END =====
