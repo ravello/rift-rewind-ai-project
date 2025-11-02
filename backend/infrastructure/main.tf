@@ -211,6 +211,23 @@ resource "aws_api_gateway_integration_response" "session_integration_response_op
   depends_on = [aws_api_gateway_method.session_method_options, aws_api_gateway_integration.session_integration_options]
 }
 
+# POST for /session/{sessionId}
+resource "aws_api_gateway_method" "session_method_post" {
+  rest_api_id   = aws_api_gateway_rest_api.session_api.id
+  resource_id   = aws_api_gateway_resource.session_resource.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "session_integration_post" {
+  rest_api_id             = aws_api_gateway_rest_api.session_api.id
+  resource_id             = aws_api_gateway_resource.session_resource.id
+  http_method             = aws_api_gateway_method.session_method_post.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = aws_lambda_function.create_session_function.invoke_arn
+}
+
 #/session/{sessionId}
 resource "aws_api_gateway_resource" "session_id_resource" {
   rest_api_id = aws_api_gateway_rest_api.session_api.id
@@ -263,4 +280,21 @@ resource "aws_api_gateway_integration_response" "session_id_integration_response
   }
 
   depends_on = [aws_api_gateway_method.session_id_method_options, aws_api_gateway_integration.session_id_integration_options]
+}
+
+# POST for /session/{sessionId}
+resource "aws_api_gateway_method" "session_id_method_post" {
+  rest_api_id   = aws_api_gateway_rest_api.session_api.id
+  resource_id   = aws_api_gateway_resource.session_id_resource.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "session_id_integration_post" {
+  rest_api_id             = aws_api_gateway_rest_api.session_api.id
+  resource_id             = aws_api_gateway_resource.session_id_resource.id
+  http_method             = aws_api_gateway_method.session_id_method_post.http_method
+  type                    = "AWS_PROXY"
+  integration_http_method = "POST"
+  uri                     = aws_lambda_function.invoke_agent_function.invoke_arn
 }
