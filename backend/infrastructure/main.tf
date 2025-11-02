@@ -29,7 +29,7 @@ resource "aws_iam_policy" "lambda_bedrock_invocation_policy" {
           "bedrock:InvokeAgent",
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:lambda:::*"
+        Resource = "*"
       },
     ]
   })
@@ -45,6 +45,16 @@ resource "aws_iam_policy_attachment" "lambda_bedrock_invocation_policy_attachmen
   name       = "lambda_bedrock_invocation_policy_attachment"
   roles      = [aws_iam_role.lambda_bedrock_invocation_role.name]
   policy_arn = aws_iam_policy.lambda_bedrock_invocation_policy.arn
+}
+
+resource "aws_lambda_function" "invoke_agent_function" {
+  filename         = data.archive_file.invoke_agent_zip.output_path
+  function_name    = "invoke_agent_function"
+  role             = aws_iam_role.lambda_bedrock_invocation_role.arn
+  handler          = "invokeAgent.handler"
+  source_code_hash = data.archive_file.invoke_agent_zip.output_base64sha256
+
+  runtime = "nodejs22.x"
 }
 
 resource "aws_iam_policy" "lambda_bedrock_session_policy" {
@@ -63,7 +73,7 @@ resource "aws_iam_policy" "lambda_bedrock_session_policy" {
           "bedrock:CreateSession"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:lambda:::*"
+        Resource = "*"
       },
     ]
   })
@@ -79,4 +89,14 @@ resource "aws_iam_policy_attachment" "lambda_bedrock_session_policy_attachment" 
   name       = "lambda_bedrock_session_policy_attachment"
   roles      = [aws_iam_role.lambda_bedrock_session_role.name]
   policy_arn = aws_iam_policy.lambda_bedrock_session_policy.arn
+}
+
+resource "aws_lambda_function" "create_session_function" {
+  filename         = data.archive_file.create_session_zip.output_path
+  function_name    = "create_session_function"
+  role             = aws_iam_role.lambda_bedrock_session_role.arn
+  handler          = "createSessionId.handler"
+  source_code_hash = data.archive_file.create_session_zip.output_base64sha256
+
+  runtime = "nodejs22.x"
 }
