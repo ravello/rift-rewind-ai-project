@@ -56,6 +56,13 @@ resource "aws_lambda_function" "invoke_agent_function" {
   source_code_hash = data.archive_file.invoke_agent_zip.output_base64sha256
 
   runtime = "nodejs22.x"
+
+  environment {
+    variables = {
+      AGENT_ALIAS = ""
+      AGENT_ID    = ""
+    }
+  }
 }
 # ===== Lambda Bedrock Invocation END =====
 
