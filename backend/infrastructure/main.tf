@@ -35,15 +35,15 @@ resource "aws_iam_policy" "lambda_bedrock_invocation_policy" {
   })
 }
 
-resource "aws_iam_role" "lambda_bedrock_invoke_role" {
-  name = "lambda_bedrock_invoke_role"
+resource "aws_iam_role" "lambda_bedrock_invocation_role" {
+  name = "lambda_bedrock_invocation_role"
 
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy.json
 }
 
 resource "aws_iam_policy_attachment" "lambda_bedrock_invocation_policy_attachment" {
   name       = "lambda_bedrock_invocation_policy_attachment"
-  roles      = [aws_iam_role.lambda_bedrock_invoke_role.name]
+  roles      = [aws_iam_role.lambda_bedrock_invocation_role.name]
   policy_arn = aws_iam_policy.lambda_bedrock_invocation_policy.arn
 }
 
