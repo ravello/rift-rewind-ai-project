@@ -9,8 +9,6 @@ terraform {
 
 provider "aws" {
   region     = "us-east-1"
-  access_key = "AKIAT4KRMIWGI5DTVXH3"
-  secret_key = "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"
 }
 
 # ===== Lambda Bedrock Invocation START =====
