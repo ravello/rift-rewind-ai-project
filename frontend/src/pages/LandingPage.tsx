@@ -25,18 +25,20 @@ function LandingPage ({ onSuccess }: LandingPageProps) {
         setError("");
 
         try {
-            const response = await fetch();  // TODO: Call AWS Lambda endpoint via API Gateway to get Riot account
+            // TODO: Call AWS Lambda endpoint via API Gateway to get Riot account
+            // Replace this URL with something that works
+            const response = await fetch(`https://your-api-gateway-id.execute-api.us-east-1.amazonaws.com/api/do_something`);  
 
             if (!response.ok) {
                 throw new Error("Account not found.");
             }
         
-            // FOR TESTING, REMOVE
+            // TODO: FOR TESTING, REMOVE FOR PRODUCTION
             // await new Promise((resolve) => setTimeout(resolve, 5000));
 
             const data = await response.json();
 
-            onSuccess(data);  // update parent state, sets authorized to true
+            onSuccess(data);  // update parent state, this sets authorized to true
 
             navigate("/agent");  // go to agent page
         } catch (err: any) {
@@ -48,7 +50,11 @@ function LandingPage ({ onSuccess }: LandingPageProps) {
     }
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#163358] to-black text-white">
+        <div className="flex flex-col min-h-screen w-full bg-cover bg-center bg-gradient-to-br from-[#163358] to-black text-white"
+        style={{
+            backgroundImage: "url('/riot-bg.jpg')",
+        }}
+        >
             <Header />
 
             <main className="flex flex-col items-center justify-center flex-grow px-4">

@@ -60,7 +60,11 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     const [openModal, setOpenModal] = useState<number | null>(null);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#163358] to-black text-white">
+        <div className="flex flex-col min-h-screen w-full bg-cover bg-center bg-gradient-to-br from-[#163358] to-black text-white"
+        style={{
+            backgroundImage: "url('/riot-bg.jpg')",
+        }}
+        >
             <Header />
 
             <main className="flex-grow p-6 flex flex-col items-center justify-center gap-8 pt-8">
