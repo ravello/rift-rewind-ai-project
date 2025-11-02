@@ -13,6 +13,7 @@ provider "aws" {
   secret_key = "BvblW3uXU07g0TqqzkS/OZdWUoidZf2toba3mdy0"
 }
 
+# ===== Lambda Bedrock Invocation START =====
 resource "aws_iam_policy" "lambda_bedrock_invocation_policy" {
   name        = "lambda_bedrock_invocation_policy"
   path        = "/"
@@ -56,7 +57,9 @@ resource "aws_lambda_function" "invoke_agent_function" {
 
   runtime = "nodejs22.x"
 }
+# ===== Lambda Bedrock Invocation END =====
 
+# ===== Lambda Bedrock Create Session START =====
 resource "aws_iam_policy" "lambda_bedrock_session_policy" {
   name        = "lambda_bedrock_session_policy"
   path        = "/"
@@ -100,7 +103,9 @@ resource "aws_lambda_function" "create_session_function" {
 
   runtime = "nodejs22.x"
 }
+# ===== Lambda Bedrock Create Session END =====
 
+# ===== API Gateway START =====
 resource "aws_api_gateway_rest_api" "session_api" {
   name        = "session_api"
   description = "API Gateway REST API for Bedrock functions"
@@ -110,7 +115,7 @@ resource "aws_api_gateway_rest_api" "session_api" {
   }
 }
 
-# / OPTIONS
+# OPTIONS for /
 resource "aws_api_gateway_method" "root_method" {
   rest_api_id   = aws_api_gateway_rest_api.session_api.id
   resource_id   = aws_api_gateway_rest_api.session_api.root_resource_id
@@ -211,7 +216,7 @@ resource "aws_api_gateway_integration_response" "session_integration_response_op
   depends_on = [aws_api_gateway_method.session_method_options, aws_api_gateway_integration.session_integration_options]
 }
 
-# POST for /session/{sessionId}
+# POST for /session
 resource "aws_api_gateway_method" "session_method_post" {
   rest_api_id   = aws_api_gateway_rest_api.session_api.id
   resource_id   = aws_api_gateway_resource.session_resource.id
@@ -298,3 +303,5 @@ resource "aws_api_gateway_integration" "session_id_integration_post" {
   integration_http_method = "POST"
   uri                     = aws_lambda_function.invoke_agent_function.invoke_arn
 }
+# ===== API Gateway END =====
+
