@@ -24,3 +24,6 @@ npm run dev
 ```bash
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 ```
+
+### Credit
+Background artwork © Riot Games. Used under Riot Games’ fan content policy.
