@@ -5,6 +5,7 @@ import { ChatBox } from "../components/ChatBox";
 import { ChatInput } from "../components/ChatInput";
 import { Button, Card, CardHeader, CardBody, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/react";
 import { motion } from "framer-motion";
+import { FaTwitter, FaDiscord, FaFacebook } from "react-icons/fa";
 
 interface ModalInfo {
     title: string;
@@ -100,7 +101,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
 
                 {/* Modals */}
                 {modalData.map((data, i) => (
-                    <Modal key={i} isOpen={openModal === i} className="bg-gray-800/95 text-white h-120" onOpenChange={() => setOpenModal(null)}>
+                    <Modal key={i} isOpen={openModal === i} className="bg-gray-800 text-white h-120" onOpenChange={() => setOpenModal(null)}>
                         <ModalContent>
                             <ModalHeader className="text-[#C79B3B]">{data.title}</ModalHeader>
                             <ModalBody>
@@ -108,6 +109,31 @@ export default function AgentPage({ playerData }: AgentPageProps) {
                                 <p>{data.description}</p>
                             </ModalBody>
                             <ModalFooter>
+                                <div className="flex gap-2">
+                                    <Button
+                                    color="primary"
+                                    variant="ghost"
+                                    onPress={() => window.open("https://twitter.com/intent/tweet?text=Check+out+my+agent!", "_blank")}
+                                    >
+                                    <FaTwitter className="text-blue-400" />
+                                    </Button>
+
+                                    <Button
+                                    color="primary"
+                                    variant="ghost"
+                                    onPress={() => window.open("https://discord.com/channels/@me", "_blank")}
+                                    >
+                                    <FaDiscord className="text-indigo-400" />
+                                    </Button>
+
+                                    <Button
+                                    color="primary"
+                                    variant="ghost"
+                                    onPress={() => window.open("https://www.facebook.com/sharer/sharer.php?u=https://yourproject.com", "_blank")}
+                                    >
+                                    <FaFacebook className="text-blue-500" />
+                                    </Button>
+                                </div>
                                 <Button onPress={() => setOpenModal(null)} color="danger" variant="solid">Close</Button>
                             </ModalFooter>
                         </ModalContent>
