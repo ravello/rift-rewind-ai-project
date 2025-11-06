@@ -26,7 +26,7 @@ function LandingPage ({ onSuccess }: LandingPageProps) {
 
         try {
             // BACKEND TODO: Call AWS Lambda endpoint via API Gateway endpoint to validate Riot account & retrieve player data
-            // This replace this dummy URL
+            // Replace this dummy URL
             const response = await fetch(`https://your-api-gateway-id.execute-api.us-east-1.amazonaws.com/api/do_something`);  
 
             if (!response.ok) {
