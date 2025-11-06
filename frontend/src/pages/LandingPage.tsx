@@ -25,20 +25,26 @@ function LandingPage ({ onSuccess }: LandingPageProps) {
         setError("");
 
         try {
-            // TODO: Call AWS Lambda endpoint via API Gateway to get Riot account
-            // Replace this URL with something that works
+            // BACKEND TODO: Call AWS Lambda endpoint via API Gateway endpoint to validate Riot account & retrieve player data
+            // This replace this dummy URL
             const response = await fetch(`https://your-api-gateway-id.execute-api.us-east-1.amazonaws.com/api/do_something`);  
 
             if (!response.ok) {
                 throw new Error("Account not found.");
             }
         
-            // TODO: FOR TESTING, REMOVE FOR PRODUCTION
+            // USED FOR TESTING, REMOVE FOR PRODUCTION
             // await new Promise((resolve) => setTimeout(resolve, 5000));
+            // const fakeData = {
+            //     name: "hideonbush",
+            //     tagline,
+            //     level: 45,
+            //     rank: "Gold 2",
+            // };
 
             const data = await response.json();
 
-            onSuccess(data);  // update parent state, this sets authorized to true
+            onSuccess(data);  // update parent state, this sets isAuthorized (App.tsx) to true
 
             navigate("/agent");  // go to agent page
         } catch (err: any) {

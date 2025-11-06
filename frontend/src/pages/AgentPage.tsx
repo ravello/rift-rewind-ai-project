@@ -14,7 +14,10 @@ interface ModalInfo {
     description: string;
 }
 
-// TODO backend connection INSIGHTS
+// This is fake data that I pass for the modals
+// The API must return an Array of 5 objects so that modalData.map() is called correctly
+// Configure the LandingPage.tsx to call the correct API Gateway endpoint
+// BACKEND TODO: Delete this fake data once we have a working API endpoint
 const modalData: ModalInfo[] = [
     { title: "Insight 1", subtitle: "Details about insight", img: "/img1.png", description: "Longer description"},
     { title: "Insight 2", subtitle: "Details about insight", img: "/img2.png", description: "Longer description"},
@@ -23,10 +26,14 @@ const modalData: ModalInfo[] = [
     { title: "Insight 5", subtitle: "Details about insight", img: "/img5.png", description: "Longer description"}
 ];
 
+// We pass playerData from the LandingPage to the AgentPage via state.
+// What data is returned depends on the backend.
+// Edit this type if need be.
 interface AgentPageProps {
     playerData: any;
 }
 
+//
 export default function AgentPage({ playerData }: AgentPageProps) {
     // for chat
     const [messages, setMessages] = useState([
@@ -45,7 +52,8 @@ export default function AgentPage({ playerData }: AgentPageProps) {
         // setMessages(...);
     }
 
-    // setTimeout used for example backend response, remove for production
+    // FOR TESTING, REMOVE FOR PRODUCTION EVENTUALLY
+    // setTimeout used for example backend response
     // setTimeout(() => {
     //     setMessages((prev) => [
     //         ...prev,
