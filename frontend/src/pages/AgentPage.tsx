@@ -70,6 +70,8 @@ interface AgentPageProps {
 
 //
 export default function AgentPage({ playerData }: AgentPageProps) {
+  console.log("Player data received in AgentPage:", playerData);
+
   // for chat
   const [messages, setMessages] = useState([
     {
@@ -85,7 +87,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
       { id: prev.length + 1, sender: "user", text: `You: ${text}` },
     ]);
 
-    // TODO backend connection RAG AI Chatbot
+    // TODO: backend connection RAG AI Chatbot
     // const response = await fetch(...);
     // const data = await response.json();
     // setMessages(...);

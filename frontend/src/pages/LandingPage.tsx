@@ -10,7 +10,7 @@ interface LandingPageProps {
 
 function LandingPage({ onSuccess }: LandingPageProps) {
   const [gameName, setGameName] = useState("");
-  const [tagline, setTagline] = useState("");
+  const [tagline, setTagline] = useState("#");
   const [region, setRegion] = useState("americas");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -56,7 +56,6 @@ function LandingPage({ onSuccess }: LandingPageProps) {
 
       const data = await response.json();
 
-      console.log("API response data:", data);
       if (data.statusCode && data.statusCode !== 200) {
         throw new Error(data.message || "Account not found.");
       }
@@ -83,25 +82,27 @@ function LandingPage({ onSuccess }: LandingPageProps) {
 
       <main className="flex flex-col items-center justify-center flex-grow px-4">
         <h1 className="text-[#C79B3B] text-9xl font-bold mb-6">Recall</h1>
-        <Input
-          className="max-w-md mb-4"
-          label="Game name"
-          value={gameName}
-          onChange={(e) => setGameName(e.target.value)}
-          disabled={loading}
-          fullWidth
-          isRequired
-        />
-        <Input
-          className="max-w-md mb-4"
-          label="Tagline (e.g., #NA1, #ABC1)"
-          value={tagline}
-          onChange={(e) => setTagline(e.target.value)}
-          disabled={loading}
-          fullWidth
-          isRequired
-        />
-        <div className="max-w-md w-full mb-4">
+        <div className="max-w-md w-full mb-4 inline-flex">
+          <Input
+            className="max-w-2/3 mr-2"
+            label="Game name"
+            value={gameName}
+            onChange={(e) => setGameName(e.target.value)}
+            disabled={loading}
+            fullWidth
+            isRequired
+          />
+          <Input
+            className="max-w-1/3"
+            label="Tagline (e.g., #NA1)"
+            value={tagline}
+            onChange={(e) => setTagline(e.target.value)}
+            disabled={loading}
+            fullWidth
+            isRequired
+          />
+        </div>
+        <div className="max-w-2xs w-full mb-6">
           <label className="block mb-1">Region</label>
           <select
             className="w-full p-2 rounded bg-gray-800 text-white"
