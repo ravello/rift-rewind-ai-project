@@ -15,7 +15,7 @@ import {
   ModalFooter,
 } from "@heroui/react";
 import { motion } from "framer-motion";
-import { FaTwitter, FaDiscord, FaFacebook } from "react-icons/fa";
+import { ShareButtons } from "../components/ShareButtons";
 
 interface ModalInfo {
   title: string;
@@ -108,6 +108,9 @@ export default function AgentPage({ playerData }: AgentPageProps) {
   // for modals
   const [openModal, setOpenModal] = useState<number | null>(null);
 
+  // for share buttons
+  const pageUrl = window.location.href;
+
   return (
     <div
       className="flex flex-col min-h-screen w-full bg-cover bg-center bg-gradient-to-br from-[#163358] to-black text-white"
@@ -180,47 +183,11 @@ export default function AgentPage({ playerData }: AgentPageProps) {
                 <p>{data.description}</p>
               </ModalBody>
               <ModalFooter>
-                <div className="flex gap-2">
-                  <Button
-                    color="primary"
-                    variant="ghost"
-                    onPress={() =>
-                      window.open(
-                        "https://twitter.com/intent/tweet?text=Check+out+my+agent!",
-                        "_blank"
-                      )
-                    }
-                  >
-                    <FaTwitter className="text-blue-400" />
-                  </Button>
-
-                  <Button
-                    color="primary"
-                    variant="ghost"
-                    onPress={() =>
-                      window.open("https://discord.com/channels/@me", "_blank")
-                    }
-                  >
-                    <FaDiscord className="text-indigo-400" />
-                  </Button>
-
-                  <Button
-                    color="primary"
-                    variant="ghost"
-                    onPress={() =>
-                      window.open(
-                        "https://www.facebook.com/sharer/sharer.php?u=https://yourproject.com",
-                        "_blank"
-                      )
-                    }
-                  >
-                    <FaFacebook className="text-blue-500" />
-                  </Button>
-                </div>
+                <ShareButtons pageUrl={pageUrl} shareText="This is my League of Legends summoner insight for 2025!" />
                 <Button
                   onPress={() => setOpenModal(null)}
                   color="danger"
-                  variant="solid"
+                  variant="shadow"
                 >
                   Close
                 </Button>
