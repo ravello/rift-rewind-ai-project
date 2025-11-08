@@ -183,7 +183,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
                 <p>{data.description}</p>
               </ModalBody>
               <ModalFooter>
-                <ShareButtons pageUrl={pageUrl} shareText="This is my League of Legends summoner insight for 2025!" />
+                <ShareButtons pageUrl={pageUrl} shareText="This is my League of Legends Summoner Insight for 2025!" />
                 <Button
                   onPress={() => setOpenModal(null)}
                   color="danger"
