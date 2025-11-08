@@ -68,7 +68,6 @@ interface AgentPageProps {
   playerData: any;
 }
 
-//
 export default function AgentPage({ playerData }: AgentPageProps) {
   console.log("Player data received in AgentPage:", playerData);
 
