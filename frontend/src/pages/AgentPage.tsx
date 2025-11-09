@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { ChatBox } from "../components/ChatBox";
@@ -75,6 +75,8 @@ interface AgentPageProps {
 }
 
 export default function AgentPage({ playerData }: AgentPageProps) {
+  const [sessionId, setSessionId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   console.log("Player data received in AgentPage:", playerData);
 
   // for chat
@@ -86,17 +88,57 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     },
   ]);
 
-  const handleSend = (text: string) => {
-    setMessages((prev) => [
-      ...prev,
-      { id: prev.length + 1, sender: "user", text: `You: ${text}` },
-    ]);
+  useEffect(() => {
+    const createSessionId = async () => {
+      try {
+        const response: Response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}`,
+          {
+            method: "POST",
+          }
+        );
+        const data: { sessionId: string } = await response.json();
+        setSessionId(data.sessionId);
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+    createSessionId();
+  }, []);
 
-    // TODO: backend connection RAG AI Chatbot
-    // const response = await fetch(...);
-    // const data = await response.json();
-    // setMessages(...);
+
+  const handleSend = async (text: string) => {
+    try {
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "user", text: `You: ${text}` },
+      ]);
+      setLoading(true);
+      const response: Response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/${sessionId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inputText: text }),
+        }
+      );
+      const data: { response: string } = await response.json();
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "agent", text: `${data.response}` },
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "agent", text: `Sorry, your request couldn't be completed. Please try reloadig the page.` },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   // FOR TESTING, REMOVE FOR PRODUCTION EVENTUALLY
   // setTimeout used for example backend response
