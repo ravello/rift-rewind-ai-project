@@ -20,7 +20,8 @@ import { ShareButtons } from "../components/ShareButtons";
 interface ModalInfo {
   title: string;
   subtitle: string;
-  img: string;
+  thumbnail_art: string;
+  splash_art: string;
   description: string;
 }
 
@@ -32,31 +33,36 @@ const modalData: ModalInfo[] = [
   {
     title: "Insight 1",
     subtitle: "Details about insight",
-    img: "/img1.png",
+    thumbnail_art: "/img1.jpg",
+    splash_art: "/img1.png",
     description: "Longer description",
   },
   {
     title: "Insight 2",
     subtitle: "Details about insight",
-    img: "/img2.png",
+    thumbnail_art: "/img2.jpg",
+    splash_art: "/img2.png",
     description: "Longer description",
   },
   {
     title: "Insight 3",
     subtitle: "Details about insight",
-    img: "/img3.png",
+    thumbnail_art: "/img3.jpg",
+    splash_art: "/img3.png",
     description: "Longer description",
   },
   {
     title: "Insight 4",
     subtitle: "Details about insight",
-    img: "/img4.png",
+    thumbnail_art: "/img4.jpg",
+    splash_art: "/img4.png",
     description: "Longer description",
   },
   {
     title: "Insight 5",
     subtitle: "Details about insight",
-    img: "/img5.png",
+    thumbnail_art: "/img5.jpg",
+    splash_art: "/img5.png",
     description: "Longer description",
   },
 ];
@@ -150,7 +156,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
                       {data.title}
                     </h3>
                     <img
-                      src={data.img}
+                      src={data.thumbnail_art}
                       alt={data.title}
                       className="w-10 h-10 rounded-lg object-cover text-white"
                     />
@@ -176,7 +182,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
               <ModalHeader className="text-[#C79B3B]">{data.title}</ModalHeader>
               <ModalBody>
                 <img
-                  src={data.img}
+                  src={data.splash_art}
                   alt={data.title}
                   className="rounded-lg mb-3"
                 />
