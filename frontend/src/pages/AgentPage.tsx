@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { ChatBox } from "../components/ChatBox";
@@ -75,6 +75,8 @@ interface AgentPageProps {
 }
 
 export default function AgentPage({ playerData }: AgentPageProps) {
+  const [sessionId, setSessionId] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   console.log("Player data received in AgentPage:", playerData);
 
   // for chat
@@ -82,21 +84,91 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     {
       id: 1,
       sender: "agent",
-      text: "Teemo: Hello summoner, how can I assist you?",
+      text: "Teemo: Hey Summoner! Ready to level up your League of Legends skills? I’ve got tips, insights, and analysis to help you climb the ranks. Let's get started!",
     },
   ]);
 
-  const handleSend = (text: string) => {
-    setMessages((prev) => [
-      ...prev,
-      { id: prev.length + 1, sender: "user", text: `You: ${text}` },
-    ]);
+  useEffect(() => {
+    const createSession = async () => {
+      try {
+        const sessionResponse: Response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}`,
+          {
+            method: "POST",
+          }
+        );
+        const sessionData: { sessionId: string } = await sessionResponse.json();
 
-    // TODO: backend connection RAG AI Chatbot
-    // const response = await fetch(...);
-    // const data = await response.json();
-    // setMessages(...);
+        const initialAnalysisResponse: Response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/${sessionData.sessionId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              inputText: `Please provide an analysis for my League of Legends insights: ${JSON.stringify(
+                "KDA: 0.7" // SAMPLE DATA, ROBERT: PASS YOUR INSIGHTS DATA HERE
+              )}`,
+            }),
+          }
+        );
+        const initialAnalysisData: { response: string } =
+          await initialAnalysisResponse.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: prev.length + 1,
+            sender: "agent",
+            text: `Teemo: All done, Summoner! Your League of Legends analysis is ready—time to dominate the Rift!`,
+          },
+          {
+            id: prev.length + 2,
+            sender: "agent",
+            text: `Teemo: ${initialAnalysisData.response}`,
+          },
+        ]);
+        setSessionId(sessionData.sessionId);
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+    createSession();
+  }, []);
+
+
+  const handleSend = async (text: string) => {
+    try {
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "user", text: `You: ${text}` },
+      ]);
+      setLoading(true);
+      const response: Response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/${sessionId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inputText: text }),
+        }
+      );
+      const data: { response: string } = await response.json();
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "agent", text: `Teemo: ${data.response}` },
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        { id: prev.length + 1, sender: "agent", text: `Sorry, your request couldn't be completed. Please try reloadig the page.` },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   // FOR TESTING, REMOVE FOR PRODUCTION EVENTUALLY
   // setTimeout used for example backend response
