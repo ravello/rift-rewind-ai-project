@@ -89,21 +89,46 @@ export default function AgentPage({ playerData }: AgentPageProps) {
   ]);
 
   useEffect(() => {
-    const createSessionId = async () => {
+    const createSession = async () => {
       try {
-        const response: Response = await fetch(
+        const sessionResponse: Response = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}`,
           {
             method: "POST",
           }
         );
-        const data: { sessionId: string } = await response.json();
-        setSessionId(data.sessionId);
+        const sessionData: { sessionId: string } = await sessionResponse.json();
+
+        const initialAnalysisResponse: Response = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/${sessionData.sessionId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              inputText: `Provide an analysis on these League of Legends player insights: ${JSON.stringify(
+                "KDA: 0.7" // SAMPLE DATA, ROBERT: PASS YOUR INSIGHTS DATA HERE
+              )}`,
+            }),
+          }
+        );
+        const initialAnalysisData: { response: string } =
+          await initialAnalysisResponse.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: prev.length + 1,
+            sender: "agent",
+            text: `${initialAnalysisData.response}`,
+          },
+        ]);
+        setSessionId(sessionData.sessionId);
       } catch (error) {
         console.error("Error: ", error);
       }
     };
-    createSessionId();
+    createSession();
   }, []);
 
 
