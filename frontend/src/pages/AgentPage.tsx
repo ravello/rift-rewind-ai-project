@@ -84,7 +84,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     {
       id: 1,
       sender: "agent",
-      text: "Teemo: Hello summoner, how can I assist you?",
+      text: "Teemo: Hey Summoner! Ready to level up your League of Legends skills? I’ve got tips, insights, and analysis to help you climb the ranks. Let's get started!",
     },
   ]);
 
@@ -107,7 +107,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              inputText: `Provide an analysis on these League of Legends player insights: ${JSON.stringify(
+              inputText: `Please provide an analysis for my League of Legends insights: ${JSON.stringify(
                 "KDA: 0.7" // SAMPLE DATA, ROBERT: PASS YOUR INSIGHTS DATA HERE
               )}`,
             }),
@@ -120,7 +120,12 @@ export default function AgentPage({ playerData }: AgentPageProps) {
           {
             id: prev.length + 1,
             sender: "agent",
-            text: `${initialAnalysisData.response}`,
+            text: `Teemo: All done, Summoner! Your League of Legends analysis is ready—time to dominate the Rift!`,
+          },
+          {
+            id: prev.length + 2,
+            sender: "agent",
+            text: `Teemo: ${initialAnalysisData.response}`,
           },
         ]);
         setSessionId(sessionData.sessionId);
@@ -152,7 +157,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
       const data: { response: string } = await response.json();
       setMessages((prev) => [
         ...prev,
-        { id: prev.length + 1, sender: "agent", text: `${data.response}` },
+        { id: prev.length + 1, sender: "agent", text: `Teemo: ${data.response}` },
       ]);
     } catch (error) {
       setMessages((prev) => [
