@@ -17,8 +17,8 @@ export const handler = async (event) => {
       agentId,
       agentAliasId,
       sessionId,
-      inputText: inputText
-    }
+      inputText: inputText,
+    };
 
     const command = new InvokeAgentCommand(input);
     let completion = "";
@@ -36,6 +36,12 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Methods": "POST,OPTIONS",
+      },
       body: JSON.stringify({
         response: completion,
       }),
@@ -44,7 +50,7 @@ export const handler = async (event) => {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        errorMessage: error.message || 'Internal Server Error'
+        errorMessage: error.message || "Internal Server Error",
       }),
     };
   }
