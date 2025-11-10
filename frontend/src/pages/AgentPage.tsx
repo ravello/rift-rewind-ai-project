@@ -34,6 +34,11 @@ interface AgentPageProps {
 
 let modalData: ModalInfo[] = [];
 
+const getChampionImageUrl = (championName: string) => {
+  const normalized = championName.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return `https://champion-splash-art-ravel.s3.us-east-2.amazonaws.com/thumbs/${normalized}.png`;
+};
+
 function calculateInsights(matchList: any[]) {
   const champTime: { [key: string]: number } = {};
   const champKDAs: { [key: string]: number[] } = {}; // (kills + assists) / deaths
@@ -235,7 +240,7 @@ async function generateInsights(playerData: any) {
         " hrs " +
         Math.floor((mainTimePlayed % 3600) / 60) +
         " mins this year. Click to see more details",
-      thumbnail_art: "/img1.jpg",
+      thumbnail_art: getChampionImageUrl(mainChampion),
       splash_art: "/img1.png",
       description: mainInsight,
     },
@@ -247,7 +252,7 @@ async function generateInsights(playerData: any) {
         ", with an average KDA of " +
         bestChampKDA.toFixed(2) +
         ". Click to see more details",
-      thumbnail_art: "/img2.jpg",
+      thumbnail_art: getChampionImageUrl(bestChampion),
       splash_art: "/img2.png",
       description: bestInsight,
     },
@@ -259,7 +264,7 @@ async function generateInsights(playerData: any) {
         ", with an average KDA of " +
         weakestChampKDA.toFixed(2) +
         ". Click to see more details",
-      thumbnail_art: "/img3.jpg",
+      thumbnail_art: getChampionImageUrl(weakestChampion),
       splash_art: "/img3.png",
       description: weakestInsight,
     },
@@ -267,7 +272,7 @@ async function generateInsights(playerData: any) {
       title: "Your best match: " + bestMatchID,
       subtitle:
         "This was your best match of the year! Click to see more details",
-      thumbnail_art: "/img4.jpg",
+      thumbnail_art: `https://champion-splash-art-ravel.s3.us-east-2.amazonaws.com/thumbs/Yone.png`,
       splash_art: "/img4.png",
       description: bestMatchInsight,
     },
@@ -275,7 +280,7 @@ async function generateInsights(playerData: any) {
       title: "Recommended Build",
       subtitle:
         "Optimize your gameplay with this recommended build. Click to see more details",
-      thumbnail_art: "/img5.jpg",
+      thumbnail_art: `https://champion-splash-art-ravel.s3.us-east-2.amazonaws.com/thumbs/Anivia.png`,
       splash_art: "/img5.png",
       description: buildInsight,
     },
@@ -474,7 +479,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
               <ModalHeader className="text-[#C79B3B]">{data.title}</ModalHeader>
               <ModalBody>
                 <img
-                  src={data.splash_art}
+                  src={data.thumbnail_art}
                   alt={data.title}
                   className="rounded-lg mb-3"
                 />
