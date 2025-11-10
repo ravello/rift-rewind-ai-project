@@ -334,7 +334,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              inputText: `Perform an analysis on my insights: ${JSON.stringify(
+              inputText: `What can you tell from my insights and potential lanes to play: ${JSON.stringify(
                 playerData
               )}`,
             }),
