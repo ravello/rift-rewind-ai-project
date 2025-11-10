@@ -94,7 +94,7 @@ function LandingPage({ onSuccess }: LandingPageProps) {
           />
           <Input
             className="max-w-1/3"
-            label="Tagline (e.g., #NA1)"
+            label="Tagline (eg. #NA1)"
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
             disabled={loading}
