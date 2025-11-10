@@ -45,15 +45,6 @@ function LandingPage({ onSuccess }: LandingPageProps) {
         throw new Error("Account not found.");
       }
 
-      // USED FOR TESTING, REMOVE FOR PRODUCTION
-      // await new Promise((resolve) => setTimeout(resolve, 5000));
-      // const fakeData = {
-      //     name: "hideonbush",
-      //     tagline,
-      //     level: 45,
-      //     rank: "Gold 2",
-      // };
-
       const data = await response.json();
 
       if (data.statusCode && data.statusCode !== 200) {

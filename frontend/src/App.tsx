@@ -5,7 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import AgentPage from "./pages/AgentPage";
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(true);  // TODO: set true as a placeholder, must be false when in production
+  const [isAuthorized, setIsAuthorized] = useState(false);
   const [playerData, setPlayerData] = useState(null);
 
   return (

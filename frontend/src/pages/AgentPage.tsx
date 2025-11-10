@@ -395,26 +395,13 @@ export default function AgentPage({ playerData }: AgentPageProps) {
         {
           id: prev.length + 1,
           sender: "agent",
-          text: `Sorry, your request couldn't be completed. Please try reloadig the page.`,
+          text: `Sorry, your request couldn't be completed. Please try reloading the page.`,
         },
       ]);
     } finally {
       setLoading(false);
     }
   };
-
-  // FOR TESTING, REMOVE FOR PRODUCTION EVENTUALLY
-  // setTimeout used for example backend response
-  // setTimeout(() => {
-  //     setMessages((prev) => [
-  //         ...prev,
-  //         {
-  //             id: prev.length + 2,
-  //             sender: "agent",
-  //             text: "I've analyzed your recent matches -- you excel in early-lane skirmishes.",
-  //         },
-  //     ]);
-  // }, 1000000);
 
   // for modals
   const [openModal, setOpenModal] = useState<number | null>(null);
