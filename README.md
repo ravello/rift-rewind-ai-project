@@ -11,19 +11,5 @@ An AI-powered agent using AWS AI services and the Riot Games API to help League 
 ## 🧱 Architecture
 Frontend -> API Gateway -> Lambda Functions -> Riot API & AWS AI Services
 
-## 🚀 Setup
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend
-```bash
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-```
-
-### Credit
-Background artwork © Riot Games. Used under Riot Games’ fan content policy.
+## 🚀 Credit
+Background artwork, Favicon, & Champion art © Riot Games. Used under Riot Games’ fan content policy.
