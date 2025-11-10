@@ -334,7 +334,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              inputText: `Here are my League of Legends account insights: ${JSON.stringify(
+              inputText: `Perform an analysis on my insights: ${JSON.stringify(
                 playerData
               )}`,
             }),
@@ -363,7 +363,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     generateInsights(playerData).then((data) => {
       if (data) {
         setModalContent(data);
-        createSession(data[0].title + data[0].subtitle + data[1].title + data[1].subtitle + data[2].title + data[2].subtitle);
+        createSession(data[0].title + " " + data[0].subtitle + " " + data[1].title + " " + data[1].subtitle + " " + data[2].title + " " + data[2].subtitle);
       }
     });
     
