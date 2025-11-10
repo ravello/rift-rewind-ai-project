@@ -35,8 +35,7 @@ interface AgentPageProps {
 let modalData: ModalInfo[] = [];
 
 const getChampionImageUrl = (championName: string) => {
-  const normalized = championName.toLowerCase().replace(/[^a-z0-9]/g, "");
-  return `https://champion-splash-art-ravel.s3.us-east-2.amazonaws.com/thumbs/${normalized}.png`;
+  return `https://champion-splash-art-ravel.s3.us-east-2.amazonaws.com/thumbs/${championName}.png`;
 };
 
 function calculateInsights(matchList: any[]) {
@@ -302,6 +301,8 @@ export default function AgentPage({ playerData }: AgentPageProps) {
     },
   ]);
 
+  if (loading) {};
+
   // generate insights based on playerData
   useEffect(() => {
     generateInsights(playerData).then((data) => {
@@ -481,7 +482,7 @@ export default function AgentPage({ playerData }: AgentPageProps) {
                 <img
                   src={data.thumbnail_art}
                   alt={data.title}
-                  className="rounded-lg mb-3"
+                  className="w-10 h-10 rounded-lg object-cover text-white"
                 />
                 <p>{data.description}</p>
               </ModalBody>
